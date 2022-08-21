@@ -1,7 +1,10 @@
 import * as jwt from 'jsonwebtoken';
+import 'dotenv/config';
+import { IUser } from '../interfaces/ILogin';
 
 export default class JwtService {
-  static sign(payload: { id: number, email: string }): string {
-    return jwt.sign(payload, 'SUPER SENHA');
-  }
+  static createToken = (data: IUser): string => {
+    const token = jwt.sign({ data }, process.env.JWT_SECRET as string);
+    return token;
+  };
 }
