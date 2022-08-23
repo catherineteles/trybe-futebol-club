@@ -4,7 +4,7 @@ import JwtService from './JWTservice';
 import passwordService from './passwordService';
 
 export default class LoginService {
-  login = async ({ email, password }:{ email: string, password: string }): Promise<string> => {
+  static login = async (email: string, password: string): Promise<string> => {
     const user: IUserWithPassword | null = await User.findOne({
       where: { email },
     });

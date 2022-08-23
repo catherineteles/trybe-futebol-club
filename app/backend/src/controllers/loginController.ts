@@ -2,11 +2,10 @@ import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
 
 export default class LoginController {
-  constructor(private loginService: LoginService) { }
-
-  async newLogin(req: Request, res: Response): Promise<void> {
-    const token = await this.loginService.login(req.body);
+  static newLogin = async (req: Request, res: Response): Promise<void> => {
+    const { email, password } = req.body;
+    const token = await LoginService.login(email, password);
 
     res.status(200).json({ token });
-  }
+  };
 }
