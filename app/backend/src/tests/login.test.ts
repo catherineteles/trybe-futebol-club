@@ -47,4 +47,12 @@ describe('Login', () => {
 
       expect(response.status).to.equal(200);
   });
+
+  it('should return a token', async () => {
+    const response = await chai.request(app)
+        .post('/login')
+        .send(bodyMock);
+
+      expect(response.body).to.haveOwnProperty('token');
+  });
 });
