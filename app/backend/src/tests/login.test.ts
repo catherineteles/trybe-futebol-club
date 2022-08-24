@@ -89,4 +89,21 @@ describe('Login', () => {
       expect(response.body).to.haveOwnProperty('message');
       expect(response.body.message).to.equal('All fields must be filled');
   })
+
+  it('should throw an error if email is wrong', async () => {
+    sinon.stub(User, "findOne").resolves(null);
+    const response = await chai.request(app)
+        .post('/login')
+        .send(bodyMock);
+      expect(response.body).to.haveOwnProperty('message');
+      expect(response.body.message).to.equal('Incorrect email or password');
+  })
+
+  it('should be called with status 401 email is wrong', async () => {
+    sinon.stub(User, "findOne").resolves(null);
+    const response = await chai.request(app)
+        .post('/login')
+        .send(bodyMock);
+    expect(response.status).to.equal(401);
+  })
 });
