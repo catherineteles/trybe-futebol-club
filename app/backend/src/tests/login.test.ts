@@ -42,7 +42,7 @@ describe('Login', () => {
 
   it('should return status 200', async () => {
     sinon.stub(User, "findOne").resolves(userMock as User);
-    sinon.stub(passwordService, 'checkPassword').resolves(true);
+    sinon.stub(passwordService, 'checkPassword').returns(true);
     const response = await chai.request(app)
         .post('/login')
         .send(bodyMock);
@@ -52,7 +52,7 @@ describe('Login', () => {
 
   it('should return a token', async () => {
     sinon.stub(User, "findOne").resolves(userMock as User);
-    sinon.stub(passwordService, 'checkPassword').resolves(true);
+    sinon.stub(passwordService, 'checkPassword').returns(true);
     const response = await chai.request(app)
         .post('/login')
         .send(bodyMock);
@@ -101,6 +101,25 @@ describe('Login', () => {
 
   it('should be called with status 401 email is wrong', async () => {
     sinon.stub(User, "findOne").resolves(null);
+    const response = await chai.request(app)
+        .post('/login')
+        .send(bodyMock);
+    expect(response.status).to.equal(401);
+  })
+
+  it('should throw an error if password is wrong', async () => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
+    sinon.stub(passwordService, 'checkPassword').returns(false);
+    const response = await chai.request(app)
+        .post('/login')
+        .send(bodyMock);
+      expect(response.body).to.haveOwnProperty('message');
+      expect(response.body.message).to.equal('Incorrect email or password');
+  })
+
+  it('should be called with status 401 password is wrong', async () => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
+    sinon.stub(passwordService, 'checkPassword').returns(false);
     const response = await chai.request(app)
         .post('/login')
         .send(bodyMock);
