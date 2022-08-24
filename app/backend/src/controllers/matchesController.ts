@@ -18,4 +18,10 @@ export default class MatchesController {
     }
     next();
   };
+
+  static saveMatch = async (req: Request, res: Response): Promise<void> => {
+    const match = await MatchesService.create(req.body);
+
+    res.status(201).json(match);
+  };
 }

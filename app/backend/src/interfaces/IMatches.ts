@@ -1,3 +1,10 @@
+export interface IBodyMatch {
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+}
+
 export interface IMatches {
   id: number,
   homeTeam: number,
