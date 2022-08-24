@@ -15,14 +15,15 @@ export default class MatchesService {
     return matches;
   };
 
-  static listByProgress = async (bool: boolean): Promise<Match[]> => {
+  static listByProgress = async (inProgress: boolean): Promise<Match[]> => {
     const matches: Match[] = await Match.findAll(
-      { where: { inProgress: bool },
+      {
         include:
         [
           { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
           { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } },
         ],
+        where: { inProgress },
       },
     );
 
