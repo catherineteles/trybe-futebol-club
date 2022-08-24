@@ -42,4 +42,22 @@ describe('Teams', () => {
 
       expect(response.body).to.deep.equal([teamMock]);
   });
+
+  it('should return status 200 when find team', async () => {
+    sinon.stub(Team, "findByPk").resolves(teamMock as Team);
+    
+    const response = await chai.request(app)
+        .get('/teams/1')
+
+      expect(response.status).to.equal(200);
+  });
+
+  it('should return the correct team', async () => {
+    sinon.stub(Team, "findByPk").resolves(teamMock as Team);
+    
+    const response = await chai.request(app)
+        .get('/teams/1')
+
+      expect(response.body).to.deep.equal(teamMock);
+  });
 });
