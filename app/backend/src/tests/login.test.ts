@@ -10,7 +10,6 @@ import { Response } from 'superagent';
 import { ILogin, IUserWithPassword } from '../interfaces/ILogin';
 import User from '../database/models/UserModel';
 import passwordService from '../services/passwordService';
-import LoginController from '../controllers/loginController';
 import JwtService from '../services/JWTservice';
 
 chai.use(chaiHttp);
@@ -19,6 +18,11 @@ const { expect } = chai;
 
 const bodyMock: ILogin = {
   email: 'projeto@trybe.com',
+  password: 'no-hash',
+}
+
+const wrongBodyMock: ILogin = {
+  email: '',
   password: 'no-hash',
 }
 
@@ -31,16 +35,14 @@ const userMock: IUserWithPassword = {
 }
 
 describe('Login', () => {
-  beforeEach(() => {
-    sinon.stub(User, "findOne").resolves(userMock as User);
-    sinon.stub(passwordService, 'checkPassword').resolves(true);
-  })
-
+  
   afterEach(() => {
     sinon.restore();
   })
 
   it('should return status 200', async () => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
+    sinon.stub(passwordService, 'checkPassword').resolves(true);
     const response = await chai.request(app)
         .post('/login')
         .send(bodyMock);
@@ -49,10 +51,42 @@ describe('Login', () => {
   });
 
   it('should return a token', async () => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
+    sinon.stub(passwordService, 'checkPassword').resolves(true);
     const response = await chai.request(app)
         .post('/login')
         .send(bodyMock);
 
       expect(response.body).to.haveOwnProperty('token');
   });
+
+  it('should throw an error if email is empty', async () => {
+    const response = await chai.request(app)
+        .post('/login')
+        .send(wrongBodyMock);
+      expect(response.status).to.equal(400);
+  })
+
+  it('should be called with status 400 if email is empty', async () => {
+    const response = await chai.request(app)
+        .post('/login')
+        .send(wrongBodyMock);
+      expect(response.body).to.haveOwnProperty('message');
+      expect(response.body.message).to.equal('All fields must be filled');
+  })
+
+  it('should throw an error if password is empty', async () => {
+    const response = await chai.request(app)
+        .post('/login')
+        .send({ email: 'project@test.com' });
+      expect(response.status).to.equal(400);
+  })
+
+  it('should be called with status 400 if password is empty', async () => {
+    const response = await chai.request(app)
+        .post('/login')
+        .send({ email: 'project@test.com' });
+      expect(response.body).to.haveOwnProperty('message');
+      expect(response.body.message).to.equal('All fields must be filled');
+  })
 });

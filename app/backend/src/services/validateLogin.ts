@@ -11,6 +11,7 @@ const validateBody = (data: ILogin) => {
     }),
     password: Joi.string().required().messages({
       'string.empty': message,
+      'any.required': message,
     }),
   });
 
