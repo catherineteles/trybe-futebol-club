@@ -1,6 +1,6 @@
 import Team from '../database/models/TeamModel';
 import Match from '../database/models/MatchesModel';
-import { IMatches, IBodyMatch } from '../interfaces/IMatches';
+import { IMatches, IBodyMatch, IUpdateMatch } from '../interfaces/IMatches';
 
 export default class MatchesService {
   static list = async (): Promise<Match[]> => {
@@ -43,11 +43,24 @@ export default class MatchesService {
     const match: Match | null = await Match.findByPk(id);
 
     if (!match) {
-      const error = new Error('There is no team with such id!');
+      const error = new Error('There is no match with such id!');
       error.name = 'NotFoundError';
       throw error;
     }
 
     return true;
+  };
+
+  static updateMatch = async ({ id, awayTeamGoals, homeTeamGoals }: IUpdateMatch):
+  Promise<number> => {
+    const [updated] = await Match.update(
+      {
+        awayTeamGoals, homeTeamGoals,
+      },
+      {
+        where: { id },
+      },
+    );
+    return updated;
   };
 }

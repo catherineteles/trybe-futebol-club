@@ -16,4 +16,16 @@ export default class TeamService {
     }
     return team;
   };
+
+  static checkIfExist = async (id: number): Promise<boolean> => {
+    const team: Team | null = await Team.findByPk(id);
+
+    if (!team) {
+      const error = new Error('There is no team with such id!');
+      error.name = 'NotFoundError';
+      throw error;
+    }
+
+    return true;
+  };
 }

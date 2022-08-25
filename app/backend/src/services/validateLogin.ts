@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 import { IBodyMatch } from '../interfaces/IMatches';
 import { ILogin } from '../interfaces/ILogin';
-import MatchesService from './matchesService';
+import TeamService from './teamService';
 
 const message = 'All fields must be filled';
 
@@ -32,8 +32,8 @@ export const validateMatch = async (data: IBodyMatch) => {
     error.name = 'UnauthorizedError';
     throw error;
   }
-  await MatchesService.checkIfExist(awayTeam);
-  await MatchesService.checkIfExist(homeTeam);
+  await TeamService.checkIfExist(awayTeam);
+  await TeamService.checkIfExist(homeTeam);
 };
 
 export default validateBody;
