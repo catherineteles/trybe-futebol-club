@@ -1,5 +1,7 @@
 import * as Joi from 'joi';
+import { IBodyMatch } from '../interfaces/IMatches';
 import { ILogin } from '../interfaces/ILogin';
+import MatchesService from './matchesService';
 
 const message = 'All fields must be filled';
 
@@ -21,6 +23,17 @@ const validateBody = (data: ILogin) => {
     throw error;
   }
   return value;
+};
+
+export const validateMatch = async (data: IBodyMatch) => {
+  const { awayTeam, homeTeam } = data;
+  if (awayTeam === homeTeam) {
+    const error = new Error('It is not possible to create a match with two equal teams');
+    error.name = 'UnauthorizedError';
+    throw error;
+  }
+  await MatchesService.checkIfExist(awayTeam);
+  await MatchesService.checkIfExist(homeTeam);
 };
 
 export default validateBody;

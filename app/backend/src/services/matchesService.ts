@@ -38,4 +38,16 @@ export default class MatchesService {
 
     return match;
   };
+
+  static checkIfExist = async (id: number): Promise<boolean> => {
+    const match: Match | null = await Match.findByPk(id);
+
+    if (!match) {
+      const error = new Error('There is no team with such id!');
+      error.name = 'NotFoundError';
+      throw error;
+    }
+
+    return true;
+  };
 }

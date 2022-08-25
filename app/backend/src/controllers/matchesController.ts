@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { validateMatch } from '../services/validateLogin';
 import MatchesService from '../services/matchesService';
 
 export default class MatchesController {
@@ -20,6 +21,7 @@ export default class MatchesController {
   };
 
   static saveMatch = async (req: Request, res: Response): Promise<void> => {
+    await validateMatch(req.body);
     const match = await MatchesService.create(req.body);
 
     res.status(201).json(match);
