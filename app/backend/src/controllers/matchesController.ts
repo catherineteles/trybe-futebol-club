@@ -26,4 +26,21 @@ export default class MatchesController {
 
     res.status(201).json(match);
   };
+
+  static endMatch = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    await MatchesService.checkIfExist(id as unknown as number);
+    await MatchesService.finishMatch(id as unknown as number);
+
+    res.status(200).json({ message: 'Finished' });
+  };
+
+  static updateMatch = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const { awayTeamGoals, homeTeamGoals } = req.body;
+    await MatchesService.checkIfExist(id as unknown as number);
+    await MatchesService.updateMatch({ id: +id, awayTeamGoals, homeTeamGoals });
+
+    res.status(200).json({ message: 'Updated' });
+  };
 }
