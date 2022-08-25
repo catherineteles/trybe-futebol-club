@@ -63,4 +63,16 @@ export default class MatchesService {
     );
     return updated;
   };
+
+  static finishMatch = async (id: number): Promise<number> => {
+    const [updated] = await Match.update(
+      {
+        inProgress: false,
+      },
+      {
+        where: { id },
+      },
+    );
+    return updated;
+  };
 }
