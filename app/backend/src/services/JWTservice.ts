@@ -14,7 +14,7 @@ export default class JwtService {
       const { data } = await jwt.verify(token, process.env.JWT_SECRET as string) as IJwtResponse;
       return data;
     } catch (e) {
-      const error = new Error('Expired or invalid token');
+      const error = new Error('Token must be a valid token');
       error.name = 'UnauthorizedError';
       throw error;
     }

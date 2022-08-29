@@ -20,10 +20,10 @@ export default class LoginController {
     next();
   };
 
-  static validateToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { authorization } = req.headers;
-    await JwtService.validateToken(authorization as string);
+  // static validateToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  //   const { authorization } = req.headers;
+  //   await JwtService.validateToken(authorization as string);
 
-    next();
-  };
+  //   next();
+  // };
 }
