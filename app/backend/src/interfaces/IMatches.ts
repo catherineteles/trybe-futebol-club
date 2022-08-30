@@ -1,3 +1,8 @@
+export interface IScoreMatch {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
 export interface IUpdateMatch {
   id:number,
   homeTeamGoals: number,
