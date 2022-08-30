@@ -1,6 +1,7 @@
 import { IListMatch, IListTotal, IScoreMatch } from '../interfaces/IMatches';
 import Match from '../database/models/MatchesModel';
 import Team from '../database/models/TeamModel';
+// import { ITeamWithMatches } from '../interfaces/ITeam';
 
 export default class BoardService {
   // Seleciona as partidas como homeMatches
@@ -56,7 +57,7 @@ export default class BoardService {
     const totalPoints = totalVictories * 3 + totalDraws;
     const totalGames = totalVictories + totalLosses + totalDraws;
     const goalsBalance = goalsFavor - goalsOwn;
-    const efficiency = (totalVictories / totalGames) * 100;
+    const efficiency = (totalPoints / (totalGames * 3)) * 100;
     return {
       name,
       totalPoints,
