@@ -3,6 +3,22 @@ export interface IScoreMatch {
   awayTeamGoals: number,
 }
 
+export interface IListMatch {
+  name: string,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+}
+
+export interface IListTotal extends IListMatch {
+  totalPoints: number,
+  totalGames: number,
+  goalsBalance: number,
+  efficiency: string,
+}
+
 export interface IUpdateMatch {
   id:number,
   homeTeamGoals: number,
