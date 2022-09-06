@@ -42,13 +42,15 @@ Back-end:
 
 Para inicializar os containers, utilizar o comando:
 
-```npm run compose:up
+```
+npm run compose:up
 ``` 
 
 #### Testes
 
 Durante o desenvolvimento da API foram feitos testes de integração, para verificar esses testes, basta rodar o comando:
 
-```npm test
+```
+npm test
 ``` 
 Dentro da pasta Backend
